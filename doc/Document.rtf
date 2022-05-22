@@ -1,0 +1,265 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.22000}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 Drug Classification Using IBM Watson Studio Machine Learning\par
+1 INTRODUCTION\par
+\par
+1.1 Overview\par
+Nowadays our lifestyle has been changing. Per family, at least one person has Motorcycles or cars, etc. In the same way, we all have health issues. An earlier generation has proved \ldblquote Health is Wealth\rdblquote . But, for our generation, this slogan is quite challenging.\par
+We have completely moved with hybrid veggies, junk foods, etc. Due to these foods, we are not getting sufficient nutrition and suffering from health issues. To overcome this, we are consulting doctors and taking some drugs as medicines. In this project, we have some characteristics of the patients as a dataset. The target variable of this dataset is Drugs. The drug names are confidential. So, those names are replaced as DrugX, DrugY, DrugA , DrugB, and DrugC . By consulting a doctor each time, you have to pay a doctor fee and additional charges. For saving money and time, you can use this web application to predict your drug type. The main purpose of the Drug Classification system is to predict the suitable drug type confidently for the patients based on their characteristics. The main problem here is not just the feature sets and target sets but also the approach that is taken in solving these types of problems.\par
+Here we are using classification algorithms such as Decision tree, Random forest, KNN, and xgboost.The data is trained and tested with these algorithms. From this best model is selected and saved in pkl format.And will be doing flask integration and IBM deployment.\par
+1.2 Purpose\par
+The main purpose of the Drug Classification system is to predict the suitable drug type confidently for the patients based on their characteristics.\par
+ \par
+2 LITERATURE SURVEY\par
+2.1 Existing problem \par
+Nowadays our lifestyle has been changing. Per family, at least one person has Motorcycles or cars, etc. In the same way, we all have health issues. We have completely moved with hybrid veggies, junk foods, etc. Due to these foods, we are not getting sufficient nutrition and suffering from health issues. To overcome this, we are consulting doctors and taking some drugs as medicines. By consulting a doctor each time, you have to pay a doctor fee and additional charges.\par
+2.2 Proposed solution\par
+By consulting a doctor each time, you have to pay a doctor fee and additional charges. For saving money and time, you can use this web application to predict your drug type. The main purpose of the Drug Classification system is to predict the suitable drug type confidently for the patients based on their characteristics.  \par
+3 THEORITICAL ANALYSIS \par
+3.1 Block diagram\par
+\par
+\par
+\tab\par
+\par
+Software requirements:\par
+\par
+Ananconda navigator\par
+Python packages\par
+IBM watson studio\par
+IBM Watson Machine Learning\par
+IBM Cloud Object Storage\par
+\par
+4 EXPERIMENTAL INVESTIGATIONS\par
+\par
+Shape of inputs plays a major role in the correctness of the model.\par
+ IBM Cloud helps to deploy machine learning models and test the correctness of our model.\par
+ Integrating Flask with the machine learning model involves a lot of data preprocessing to make the predictions correctly. \par
+\par
+ 5 FLOWCHART\par
+ 6 RESULT\par
+sourcecode:\par
+\par
+\par
+UI OUTPUT\par
+\par
+\tab\par
+AFTER ENTERING VALUES:\par
+\par
+\par
+\par
+\par
+7 ADVANTAGES AND DISADVANTAGES\par
+\par
+ADVANTAGES\par
+it saves money\par
+it reduces time\par
+it helps to predict drug type \par
+\par
+DISADVANtAGES\par
+predicting the drug is little bit risky\par
+less comfort and satisfaction\par
+without doctors prescription it may cause some allergies\par
+\par
+8 APPLICATION\par
+Medical Store\par
+\par
+9 CONCLUSION\par
+\par
+The Drug Classification system help us to predict the suitable drug type confidently for the patients based on their characteristics. It help us to save time and money.Prescription drugs are a key component in the healthcare.Discusses the challenges to providing accessible prescription drugs\par
+Explores technological advances and new business models in providing pharmacy services\par
+\par
+10 FUTURE SCOPE\par
+The Drug Classification helps us to save time and money and without consulting a doctor we will able to predict the drug type.We can also add doctor prescriptions as well as test results such as blood test, ECG, Bp ect. At the same time users can view their old data.\par
+\par
+11 BIBILIOGRAPHY\par
+{{\field{\*\fldinst{HYPERLINK https://medlineplus.gov/cholesterolmedicines.html }}{\fldrslt{https://medlineplus.gov/cholesterolmedicines.html\ul0\cf0}}}}\f0\fs22\par
+{{\field{\*\fldinst{HYPERLINK https://www.nhs.uk/conditions/high-cholesterol/medicines-for-high-cholesterol/ }}{\fldrslt{https://www.nhs.uk/conditions/high-cholesterol/medicines-for-high-cholesterol/\ul0\cf0}}}}\f0\fs22\par
+{{\field{\*\fldinst{HYPERLINK https://medlineplus.gov/ency/article/007278.htm }}{\fldrslt{https://medlineplus.gov/ency/article/007278.htm\ul0\cf0}}}}\f0\fs22\par
+\par
+\par
+12 APPENDIX\par
+import numpy as np\par
+import pandas as pd\par
+import matplotlib.pyplot as plt\par
+import seaborn as sns\par
+from sklearn.model_selection import train_test_split\par
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier\par
+from sklearn.tree import DecisionTreeClassifier\par
+from sklearn.neighbors import KNeighborsClassifier\par
+from sklearn.metrics import f1_score\par
+from sklearn.metrics import classification_report, confusion_matrix\par
+import warnings\par
+import pickle\par
+from scipy import stats\par
+warnings.filterw\par
+warnings.filterwarnings('ignore')\par
+plt.style.use('fivethirtyeight')\par
+df = pd.read_csv(r'C:\\Users\\drug200 (1).csv')\par
+df.head()\par
+plt.figure(figsize=(12,5))\par
+plt.subplot(121)\par
+sns.distplot(df['Age'],color='r')\par
+plt.subplot(122)\par
+sns.distplot(df['Na_to_K'])\par
+plt.show()\par
+df_cat = df.select_dtypes(include='object')\par
+df_cat.head()\par
+plt.figure(figsize=(18,4))\par
+for i,j in enumerate(df_cat):\par
+    plt.subplot(1,4,i+1)\par
+    sns.countplot(df[j])\par
+plt.figure(figsize=(20,5))\par
+plt.subplot(131)\par
+sns.countplot(df['Drug'],hue=df['BP'])\par
+plt.legend(loc='upper right')\par
+plt.subplot(132)\par
+sns.countplot(df['Drug'],hue=df['Sex'])\par
+plt.subplot(133)\par
+sns.countplot(df['Drug'],hue=df['Cholesterol'])\par
+df['Age_'] = ['15-30' if x<=30 else '30-50' if x>30 and x<=50 else '50-75' for x in df['Age']]\par
+df.head()\par
+pd.crosstab(df['Age_'],[df['Drug']])\par
+sns.swarmplot(df['Drug'],df['Na_to_K'],hue=df['BP'])\par
+df.describe(include='all')\par
+df.shape\par
+(200,6)\par
+df.isnull().sum()\par
+plt.figure(figsize=(12,5))\par
+sns.boxplot(df['Na_to_K'])\par
+plt.show()\par
+print(stats.mode(df['Na_to_K']))\par
+print(np.mean(df['Na_to_K']))\par
+q1 = np.quantile(df['Na_to_K'],0.25)\par
+q3 = np.quantile(df['Na_to_K'],0.75)\par
+IQR = q3-q1\par
+upper_bound = q3+(1.5*IQR)\par
+lower_bound = q1-(1.5*IQR)\par
+print('q1 :',q1)\par
+print('q3 :',q3)\par
+print('IQR :',IQR)\par
+print('Upper Bound :',upper_bound)\par
+print('Lower Bound :',lower_bound)\par
+print('Skewed data :',len(df[df['Na_to_K']>upper_bound]))\par
+print('Skewed data :',len(df[df['Na_to_K']<lower_bound]))\par
+def transformationPlot(feature):\par
+    plt.figure(figsize=(12,5))\par
+    plt.subplot(1,2,1)\par
+    sns.distplot(feature)\par
+    plt.subplot(1,2,2)\par
+    stats.probplot(feature,plot=plt)\par
+df['Na_to_K']=np.log(df['Na_to_K'])\par
+df['BP'] = [0 if x=='LOW' else 1 if x=='NORMAL' else 2 for x in df['BP']]\par
+df['Cholesterol'] = [0 if x=='NORMAL' else 1 for x in df['Cholesterol']]\par
+df['Sex'] = [0 if x=='F' else 1 for x in df['Sex']]\par
+df.head()\par
+sns.pairplot(df,hue='Drug')\par
+x = df.drop('Drug',axis=1)\par
+x.head()\par
+y = df['Drug']\par
+y.head()\par
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=10)\par
+print('Shape of x_train \{\}'.format(x_train.shape))\par
+print('Shape of y_train \{\}'.format(y_train.shape))\par
+print('Shape of x_test \{\}'.format(x_test.shape))\par
+print('Shape of y_test \{\}'.format(y_test.shape))\par
+x_train.drop("Age_",axis=1,inplace=True)\par
+x_test.drop("Age_",axis=1,inplace=True)\par
+x_train\par
+def decisionTree(x_train, x_test, y_train, y_test):\par
+    dt=DecisionTreeClassifier()\par
+    dt.fit(x_train,y_train)\par
+    yPred = dt.predict(x_test)\par
+    print('***DecisionTreeClassifier***')\par
+    print('Confusion matrix')\par
+    print(confusion_matrix(y_test,yPred))\par
+    print('Classification report')\par
+    print(classification_report(y_test,yPred))\par
+def randomForest(x_train, x_test, y_train, y_test):\par
+    rf = RandomForestClassifier()\par
+    rf.fit(x_train,y_train)\par
+    yPred = rf.predict(x_test)\par
+    print('***RandomForestClassifier***')\par
+    print('Confusion matrix')\par
+    print(confusion_matrix(y_test,yPred))\par
+    print('Classification report')\par
+    print(classification_report(y_test,yPred))\par
+def KNN(x_train, x_test, y_train, y_test):\par
+    knn = KNeighborsClassifier()\par
+    knn.fit(x_train,y_train)\par
+    yPred = knn.predict(x_test)\par
+    print('***KNeighborsClassifier***')\par
+    print('Confusion matrix')\par
+    print(confusion_matrix(y_test,yPred))\par
+    print('Classification report')\par
+    print(classification_report(y_test,yPred))\par
+def xgboost(x_train, x_test, y_train, y_test):\par
+    xg = GradientBoostingClassifier()\par
+    xg.fit(x_train,y_train)\par
+    yPred = xg.predict(x_test)\par
+    print('***GradientBoostingClassifier***')\par
+    print('Confusion matrix')\par
+    print(confusion_matrix(y_test,yPred))\par
+    print('Classification report')\par
+    print(classification_report(y_test,yPred))\par
+def compareModel(x_train, x_test, y_train, y_test):\par
+    decisionTree(x_train, x_test, y_train, y_test)\par
+    print('-'*100)\par
+    randomForest(x_train, x_test, y_train, y_test)\par
+    print('-'*100)\par
+    KNN(x_train, x_test, y_train, y_test)\par
+    print('-'*100)\par
+    xgboost(x_train, x_test, y_train, y_test)\par
+compareModel(x_train, x_test, y_train, y_test)\par
+from sklearn.model_selection import cross_val_score\par
+rf = RandomForestClassifier()\par
+rf.fit(x_train,y_train)\par
+yPred = rf.predict(x_test)\par
+f1_score(yPred,y_test,average='weighted')\par
+confusion_matrix(y_test,ypred)\par
+print(classification_report(y_test,ypred))\par
+pickle.dump(rf,open('model.pkl','wb'))\par
+pickle.dump(rf,open('model.pkl','wb'))\par
+!tar -zcvf drug-classification-model_new.tgz model.pkl\par
+ls -1\par
+!pip install watson-machine-learning-client --upgrade\par
+from ibm_watson_machine_learning import APIClient\par
+wml_credentials = \{\par
+    "url": "{{\field{\*\fldinst{HYPERLINK https://us-south.ml.cloud.ibm.com }}{\fldrslt{https://us-south.ml.cloud.ibm.com\ul0\cf0}}}}\f0\fs22 ",\par
+    "apikey": "exj3cobWRr1L6iRO1AKBNruQ2Q6MPpiELRhxYF0t5R-D"\par
+\}\par
+client = APIClient(wml_credentials)\par
+def guid_from_space_name(client, space_name):\par
+    space = client.spaces.get_details()\par
+    #print(space)\par
+    return(next(item for item in space['resources'] if item['entity']["name"] == space_name)['metadata']['id'])\par
+space_uid = guid_from_space_name(client, space_name='drug')\par
+print("Space UID = " + space_uid)\par
+client.set.default_space(space_uid)\par
+client.software_specifications.list()\par
+import sklearn\par
+sklearn.__version__\par
+software_spec_uid= client.software_specifications.get_uid_by_name("default_py3.8")\par
+software_spec_uid\par
+#Save model\par
+model_details = client.repository.store_model(model='drug-classification-model_new.tgz',\par
+                                              meta_props=\{client.repository.ModelMetaNames.NAME:"DrugClassification",\par
+                                                          client.repository.ModelMetaNames.TYPE:"scikit-learn_0.23",\par
+                                                          client.repository.ModelMetaNames.SOFTWARE_SPEC_UID:software_spec_uid\par
+                                                         \},\par
+                                              training_data=x_train,\par
+                                              training_target=y_train)\par
+model_id = client.repository.get_model_id(model_details)\par
+model_id\par
+# Deploy\par
+deployment = client.deployments.create(\par
+    artifact_uid=model_id, \par
+    meta_props=\{client.deployments.ConfigurationMetaNames.NAME:"Drugclassification", \par
+    client.deployments.ConfigurationMetaNames.ONLINE: \{\}\par
+\})\par
+\par
+\par
+\par
+\tab\par
+}
+ 
